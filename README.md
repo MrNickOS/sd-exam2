@@ -97,5 +97,10 @@ que hace que el servidor escuche por el puerto 5140 en localhost como predetermi
 reinicia el stack ELK con el servicio Fluentd.
 ```curl -XPUT 'http://localhost:9200/kibana/' -d '{"index.mapper.dynamic": true}'```
 
-## Provisioning Docker + Docker-Compose
 
+## Provisioning Docker + Docker-Compose
+La herramienta de contenedores permite ejecutar los comandos previos de manera automática, usando
+scripts denominados Dockerfile y docker-compose (de extensión .yml). En ese sentido, se procede a
+ejecutar el archivo DC en la carpeta raíz que contiene los subdirectorios de aprovisionamiento.
+
+```distribuidos@Equipo-Lab-306C:~/Documents/talleres/sd-exam2$ docker-compose up --build```
