@@ -93,4 +93,9 @@ esta línea
 
 ```*.*                             @127.0.0.1:5140```
 
-que hace que el servidor escuche por el puerto 5140 en localhost como predeterminado.
+que hace que el servidor escuche por el puerto 5140 en localhost como predeterminado. Finalmente, se
+reinicia el stack ELK con el servicio Fluentd.
+```curl -XPUT 'http://localhost:9200/kibana/' -d '{"index.mapper.dynamic": true}'```
+
+## Provisioning Docker + Docker-Compose
+
