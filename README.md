@@ -104,3 +104,87 @@ scripts denominados Dockerfile y docker-compose (de extensión .yml). En ese sen
 ejecutar el archivo DC en la carpeta raíz que contiene los subdirectorios de aprovisionamiento.
 
 ```distribuidos@Equipo-Lab-306C:~/Documents/talleres/sd-exam2$ docker-compose up --build```
+
+Se utiliza la opción --build para construir desde cero los nuevos contenedores, con estas líneas de
+código.
+
+```yml
+version: '2'
+services:
+  web:
+    image: httpd
+    ports:
+      - "8082:8082"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: 127.0.0.1:24224
+        tag: httpd.access
+
+  fluentd:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    links:
+      - "elasticsearch"
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+
+  elasticsearch:
+    image: elasticsearch
+    expose:
+      - 9200
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: kibana
+    links:
+      - "elasticsearch"
+    ports:
+      - "5601:5601"
+```
+
+Este DC ejecuta el archivo Dockerfile para Fluentd, que consta de estas líneas.
+
+```Dockerfile
+# fluentd/Dockerfile
+FROM fluent/fluentd:v0.12-debian
+RUN ["gem", "install", "fluent-plugin-elasticsearch", "--no-rdoc", "--no-ri", "--version", "1.9.2"]
+```
+
+Y la configuración del servicio Fluentd es la siguiente:
+
+```conf
+# fluentd/conf/fluent.conf
+<source>
+  @type forward
+  port 24224
+  bind 0.0.0.0
+</source>
+<match *.**>
+  @type copy
+  <store>
+    @type elasticsearch
+    host elasticsearch
+    port 9200
+    logstash_format true
+    logstash_prefix fluentd
+    logstash_dateformat %Y%m%d
+    include_tag_key true
+    type_name access_log
+    tag_key @log_name
+    flush_interval 1s
+  </store>
+  <store>
+    @type stdout
+  </store>
+</match>
+```
+
+## Evidencias de funcionamiento
+
+Se puede acceder desde el host anfitrión o, con la IP de éste, desde un equipo en la misma LAN.
