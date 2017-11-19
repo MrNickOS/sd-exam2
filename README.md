@@ -188,3 +188,13 @@ Y la configuración del servicio Fluentd es la siguiente:
 ## Evidencias de funcionamiento
 
 Se puede acceder desde el host anfitrión o, con la IP de éste, desde un equipo en la misma LAN.
+
+![Evidencia](https://github.com/MrNickOS/sd-exam2/blob/A00052208/sd-exam2/00.png)
+
+![Evidencia](https://github.com/MrNickOS/sd-exam2/blob/A00052208/sd-exam2/01.png)
+
+![Evidencia](https://github.com/MrNickOS/sd-exam2/blob/A00052208/sd-exam2/02.png)
+
+![Evidencia](https://github.com/MrNickOS/sd-exam2/blob/A00052208/sd-exam2/03.png)
+
+URL: https://github.com/MrNickOS/sd-exam2/tree/A00052208
